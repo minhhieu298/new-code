@@ -105,3 +105,178 @@ a {
 .data-table tbody tr:nth-child(odd) {
   background-color: #555;
 }
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.title{
+  padding: 10px; 
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.password {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  height: 5px;
+  background: #ddd;
+  border-radius: 5px;
+  width: 150px;
+}
+.password:before,
+.password:after {
+  content: "";
+  height: inherit;
+  background: transparent;
+  display: block;
+  border-color: #ddd;
+  border-style: solid;
+  border-width: 0 1px 0;
+  position: absolute;
+  width: calc(25% - 1px );
+  z-index: 10;
+}
+.password:before {
+  left: calc(25% );
+}
+.password:after {
+  right: calc(25%);
+}
+
+.strength-1::-webkit-progress-value {
+  background-color: #f25f5c;
+  width: 100%;
+}
+.strength-2::-webkit-progress-value {
+  background-color: orange;
+  width: 100%;
+}
+
+.strength-3::-webkit-progress-value {
+  background-color: #70c1b3; 
+  width: 100%;  
+}
+
+.strength-4::-webkit-progress-value {
+  background-color: #084c1eba; 
+  width: 100%;  
+}
+
+.strength-1,
+.strength-0s{
+  color: #f25f5c;
+  display: flex;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+.strength-2 {
+  color: orange;
+  display: flex;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.strength-3 {
+  color: #70c1b3;
+  display: flex;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.strength-4 {
+  color: #084c1eba;
+  display: flex;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.feedback{
+  display: inherit !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.password-container {
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+}
+
+.progress-wrapper {
+  position: relative;
+  margin-top: 10px;
+}
+
+.strength-progress {
+  width: 100%;
+  height: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #e0e0e0; /* Màu nền xám */
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Màu nền của progress bar */
+.strength-progress::-webkit-progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 2px;
+}
+
+/* Màu cho từng cấp bậc */
+.strength-progress.level-0::-webkit-progress-value { background-color: #d32f2f; } /* Đỏ - Rất yếu */
+.strength-progress.level-1::-webkit-progress-value { background-color: #f57c00; } /* Cam - Yếu */
+.strength-progress.level-2::-webkit-progress-value { background-color: #f57c00; } /* Cam - Yếu */
+.strength-progress.level-3::-webkit-progress-value { background-color: #4caf50; } /* Xanh lá - Trung bình */
+.strength-progress.level-4::-webkit-progress-value { background-color: #1976d2; } /* Xanh dương - Mạnh */
+
+/* Firefox */
+.strength-progress.level-0::-moz-progress-bar { background-color: #d32f2f; }
+.strength-progress.level-1::-moz-progress-bar { background-color: #f57c00; }
+.strength-progress.level-2::-moz-progress-bar { background-color: #f57c00; }
+.strength-progress.level-3::-moz-progress-bar { background-color: #4caf50; }
+.strength-progress.level-4::-moz-progress-bar { background-color: #1976d2; }
+
+/* Hiệu ứng */
+.strength-progress::-webkit-progress-value,
+.strength-progress::-moz-progress-bar {
+  transition: width 0.3s ease;
+}
+
+/* Tạo 3 đường phân cách cho 4 khúc */
+.strength-progress::before,
+.strength-progress::after,
+.progress-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 2px; /* Khoảng cách 2px */
+  background-color: #ffffff; /* Màu trắng để tạo gap */
+  pointer-events: none;
+}
+
+.strength-progress::before {
+  left: calc(25% - 1px); /* Đường thứ 1: giữa khúc 1 và 2 */
+}
+
+.strength-progress::after {
+  left: calc(50% - 1px); /* Đường thứ 2: giữa khúc 2 và 3 */
+}
+
+.progress-wrapper::before {
+  left: calc(75% - 1px); /* Đường thứ 3: giữa khúc 3 và 4 */
+}

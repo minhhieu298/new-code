@@ -2,6 +2,7 @@
 import { TextField } from "@/libs/theme";
 import { createTheme, ThemeProvider } from "@mui/material";
 import type { AppProps } from "next/app";
+import '@/styles/globals.css'
 
 // Tạo Emotion Cache
 const theme = createTheme({

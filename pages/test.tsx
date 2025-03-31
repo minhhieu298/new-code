@@ -1,6 +1,6 @@
-import CustomTextField from "@/components";
-import { TextField } from "@mui/material";
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Box } from "@mui/material";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type InputForm = {
@@ -25,6 +25,56 @@ const FormUI = () => {
     },
   });
 
+  const [password, setPassword] = useState("");
+  const [validate, setValidate] = useState({
+    hasLow: false,
+    hasCap: false,
+    hasNumber: false,
+    has8digit: false,
+  });
+
+  const strength = Object.values(validate).reduce(
+    (a: any, item: any) => a + item,
+    0
+  );
+  const feedback = {
+    1: "Password is to weak!",
+    2: "It's still weak! ",
+    3: "You almost there!",
+    4: "Great!! now your password is strong",
+  }[strength];
+
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+    validatePassword(e.target.value);
+  };
+
+  const validatePassword = (password: any) => {
+    if (password.match(/\d+/g)) {
+      setValidate((o) => ({ ...o, hasNumber: true }));
+    } else {
+      setValidate((o) => ({ ...o, hasNumber: false }));
+    }
+
+    if (password.match(/[A-Z]+/g)) {
+      setValidate((o) => ({ ...o, hasCap: true }));
+    } else {
+      setValidate((o) => ({ ...o, hasCap: false }));
+    }
+
+    if (password.match(/[a-z]+/g)) {
+      setValidate((o) => ({ ...o, hasLow: true }));
+    } else {
+      setValidate((o) => ({ ...o, hasLow: false }));
+    }
+
+    if (password.length > 7) {
+      setValidate((o) => ({ ...o, has8digit: true }));
+    } else {
+      setValidate((o) => ({ ...o, has8digit: false }));
+    }
+  };
+
   const onSubmit: SubmitHandler<InputForm> = (data) => {
     console.log(data);
   };
@@ -33,159 +83,29 @@ const FormUI = () => {
 
   return (
     <>
-      <form
-        action=""
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          display: "flex",
-          gap: "20px",
-          marginTop: 40,
-        }}
-      >
-        <CustomTextField
-          option="1"
-          error={!!errors.LoginName}
-          {...register("LoginName", {
-            required: "Vui lòng nhập tên tài khoản",
-            validate: (value) => value !== "058C" || "Vui lòng nhập tên tài khoản",
-          })}
-          value={watch("LoginName")}
-          onFocus={() => clearErrors("LoginName")}
-          helperText={errors.LoginName?.message}
-          slotProps={{
-            input: {
-              disableUnderline: true,
-              sx: {
-                borderRadius: 3,
-              },
-              startAdornment: <p>dá</p>,
-              endAdornment:
-                watch("LoginName") !== "" ? (
-                  <button
-                    onClick={() => {
-                      resetField("LoginName", {
-                        defaultValue: "",
-                      });
-                      setFocus("LoginName");
-                    }}
-                  >
-                    x
-                  </button>
-                ) : null,
-            },
-          }}
-        />
-
-        {/* Type with clear button */}
-        <CustomTextField
-          option="2"
-          error={!!errors.Password}
-          onFocus={() => clearErrors("LoginName")}
-          {...register("Password", { required: "Vui lòng nhập mật khẩu" })}
-          helperText={errors.Password?.message}
-          slotProps={{
-            input: {
-              disableUnderline: true,
-              sx: {
-                borderRadius: 3,
-              },
-              startAdornment: <p>dá</p>,
-              endAdornment:
-                watch("LoginName") !== "" ? (
-                  <button
-                    onClick={() => {
-                      resetField("LoginName", {
-                        defaultValue: "",
-                      });
-                      setFocus("LoginName");
-                    }}
-                  >
-                    x
-                  </button>
-                ) : null,
-            },
-          }}
-        />
-
-        {/* <TextField
-          label="Filled"
-          variant="filled"
-          className="custom-inline-label"
-          slotProps={{
-            input: {
-              disableUnderline: true,
-              sx: {
-                borderRadius: 3,
-              },
-              startAdornment: <p>dá</p>,
-              endAdornment: (
-                <button
-                  onClick={() => {
-                    resetField("LoginName", {
-                      defaultValue: "",
-                    });
-                    setFocus("LoginName");
-                  }}
-                >
-                  x
-                </button>
-              ),
-            },
-          }}
-        />
-        <TextField
-          className="custome-outline-label"
-          label="Filled"
-          variant="filled"
-          slotProps={{
-            input: {
-              disableUnderline: true,
-              sx: {
-                borderRadius: 3,
-              },
-              startAdornment: <p>dá</p>,
-              endAdornment: (
-                <button
-                  onClick={() => {
-                    resetField("LoginName", {
-                      defaultValue: "",
-                    });
-                    setFocus("LoginName");
-                  }}
-                >
-                  x
-                </button>
-              ),
-            },
-          }}
-        /> */}
-        <button type="submit">submit</button>
-      </form>
-      <TextField
-        variant="filled"
-        slotProps={{
-          input: {
-            disableUnderline: true,
-            sx: {
-              borderRadius: 3,
-            },
-            startAdornment: <p>dá</p>,
-            endAdornment:
-              watch("LoginName") !== "" ? (
-                <button
-                  onClick={() => {
-                    resetField("LoginName", {
-                      defaultValue: "",
-                    });
-                    setFocus("LoginName");
-                  }}
-                >
-                  x
-                </button>
-              ) : null,
-          },
-        }}
+      <input
+        type="text"
+        className="input-password"
+        value={password}
+        onChange={(e) => handleChangePassword(e)}
       />
+      <br />
+      {strength > 0 ? (
+        <progress
+          hidden={password.length === 0}
+          className={`password strength-${strength}`}
+          value={strength}
+          max="4"
+        />
+      ) : null}
+      <br />
+      <div
+        className={`feedback strength-${strength}`}
+        hidden={password.length === 0}
+      >
+        {feedback}
+      </div>
+      <Box component='progress' value={2}  />
     </>
   );
 };
